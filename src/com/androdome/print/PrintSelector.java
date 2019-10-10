@@ -15,10 +15,7 @@ import com.androdome.print.util.PrintUtil;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerListModel;
 import javax.swing.JTextField;
 import javax.swing.JList;
 import javax.swing.JScrollPane;

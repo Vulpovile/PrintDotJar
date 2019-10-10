@@ -48,6 +48,7 @@ import javax.swing.JSlider;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.ScrollPaneConstants;
 
 public class WordProcessorFrame extends JFrame implements ActionListener, MouseListener, ComponentListener {
 
@@ -82,12 +83,13 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 		boolean found = false;
 		try
 		{
-			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels())
+			LookAndFeelInfo[] feels = UIManager.getInstalledLookAndFeels();
+			for (int i = 0; i < feels.length; i++)
 			{
-				if ("Nimbus".equals(info.getName()))
+				if ("Nimbus".equals(feels[i].getName()))
 				{
 					found = true;
-					UIManager.setLookAndFeel(info.getClassName());
+					UIManager.setLookAndFeel(feels[i].getClassName());
 					break;
 				}
 			}
@@ -140,7 +142,7 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 
 	public WordProcessorFrame() {
 		textArea.setOpaque(false);
-		textArea.setBackground(new Color(0,0,0,0));
+		textArea.setBackground(new Color(0, 0, 0, 0));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 717, 611);
 
@@ -183,18 +185,27 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 		panel_1.add(label, BorderLayout.NORTH);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		panel_1.add(scrollPane_1, BorderLayout.CENTER);
-
-		JPanel panel_2 = new JPanel();
+		
+		JPanel panel_4 = new JPanel();
+		scrollPane_1.setViewportView(panel_4);
+		panel_4.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_5 = new JPanel();
+		FlowLayout flowLayout_1 = (FlowLayout) panel_5.getLayout();
+		flowLayout_1.setHgap(8);
+		panel_4.add(panel_5, BorderLayout.EAST);
+		
+				JPanel panel_2 = new JPanel();
+				panel_4.add(panel_2, BorderLayout.CENTER);
+				panel_2.setLayout(new GridLayout(0, 4, 0, 0));
 
 		for (int i = 0; i < 255; i++)
 		{
 			JToggleButton btn = new JToggleButton(getAscii(i) + "");
 			panel_2.add(btn);
 		}
-
-		scrollPane_1.setViewportView(panel_2);
-		panel_2.setLayout(new GridLayout(0, 8, 0, 0));
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(new MatteBorder(0, 0, 0, 1, (Color) Color.LIGHT_GRAY));
@@ -249,11 +260,11 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 				}
 
 				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-				for (double i = 0; i < Math.max(this.getHeight(), textArea.getHeight()); i += hppp*(double)dotsperpage)
+				for (double i = 0; i < Math.max(this.getHeight(), textArea.getHeight()); i += hppp * (double) dotsperpage)
 				{
 
 					g2d.setStroke(dashed);
-					g2d.drawLine(center - width / 2, (int)i - 4, center + width / 2, (int)i - 4);
+					g2d.drawLine(center - width / 2, (int) i - 4, center + width / 2, (int) i - 4);
 					g2d.setStroke(normal);
 
 				}
@@ -288,15 +299,13 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 				textArea.setBorder(new EmptyBorder(slider.getValue(), 10, 10, 10));
 			}
 		});
-		
 
 		slider.setOrientation(SwingConstants.VERTICAL);
 		slider.setMaximum(slider.getHeight());
-		slider.addComponentListener(new ComponentAdapter()
-		{
-			 public void componentResized(ComponentEvent componentEvent) {
-				 slider.setMaximum(slider.getHeight());
-			 }
+		slider.addComponentListener(new ComponentAdapter() {
+			public void componentResized(ComponentEvent componentEvent) {
+				slider.setMaximum(slider.getHeight());
+			}
 		});
 		contentPane.add(slider, BorderLayout.WEST);
 		mntmSave.addActionListener(this);
@@ -356,21 +365,21 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 
 	public void componentResized(ComponentEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void componentMoved(ComponentEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void componentShown(ComponentEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void componentHidden(ComponentEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

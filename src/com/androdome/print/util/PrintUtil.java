@@ -117,8 +117,8 @@ public class PrintUtil {
 				String addme = "";
 				for (int i = 0; i < bold.length(); i++)
 				{
-					Character ch = bold.charAt(i);
-					String[] cline = StaticBoldmap.map.get(ch);
+					Character ch = Character.valueOf(bold.charAt(i));
+					String[] cline = (String[]) StaticBoldmap.map.get(ch);
 					if (cline == null)
 					{
 						addme += "         ";
