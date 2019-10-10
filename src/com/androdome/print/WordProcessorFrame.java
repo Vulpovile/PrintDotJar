@@ -58,8 +58,8 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	JTextArea textArea = new JTextArea();
-	public static int rows = 61, cols = 80, dotsperpage = 22;
-	public static boolean greenbar = false;
+	public static int rows = 61, cols = 130, dotsperpage = 22;
+	public static boolean greenbar = true;
 	JMenuItem mntmSave = new JMenuItem("Save...");
 	JMenuItem mntmLoad = new JMenuItem("Load...");
 	JMenuItem mntmPrint = new JMenuItem("Print...");
@@ -244,8 +244,9 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 				g.setColor(Color.WHITE);
 				g.fillRect(center - width / 2, 0, width, Math.max(this.getHeight(), textArea.getHeight()));
 				g.setColor(Color.GRAY.darker());
-				System.out.println();
-				double heightpp = g.getFontMetrics().getHeight() * rows;
+				int spacing = 4;
+			
+				double heightpp = (g.getFontMetrics().getHeight()+spacing) * rows;
 				double hppp = heightpp / (double) dotsperpage;
 				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 				for (double i = 0; i < Math.max(this.getHeight(), textArea.getHeight()); i += hppp)
@@ -260,14 +261,29 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 				}
 
 				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+				if(greenbar)
+				{
+					Color cOld = g.getColor();
+					g.setColor(new Color(200,245,200));
+					
+					for(int i = 0; i < Math.max(this.getHeight(), textArea.getHeight()); i+=(g.getFontMetrics().getHeight()+spacing)*2)
+					{
+						for(int x = 0; x < g.getFontMetrics().getHeight(); x++)
+						{
+							if(x % 2 == 0)
+							{
+								g.drawLine(center + textArea.getWidth() / 2 - 5, i+x, center - textArea.getWidth() / 2 + 5, i+x);
+							}
+						}
+					}
+					g.setColor(cOld);
+				}
+				g2d.setStroke(dashed);
 				for (double i = 0; i < Math.max(this.getHeight(), textArea.getHeight()); i += hppp * (double) dotsperpage)
 				{
-
-					g2d.setStroke(dashed);
 					g2d.drawLine(center - width / 2, (int) i - 4, center + width / 2, (int) i - 4);
-					g2d.setStroke(normal);
-
 				}
+				g2d.setStroke(normal);
 				g.drawLine(center - width / 2 - 1, 0, center - width / 2 - 1, Math.max(this.getHeight(), textArea.getHeight()));
 				g.drawLine(center + width / 2 + 1, 0, center + width / 2 + 1, Math.max(this.getHeight(), textArea.getHeight()));
 				g2d.setStroke(dashed);
