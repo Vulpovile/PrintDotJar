@@ -22,7 +22,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedReader;
@@ -58,7 +57,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.ScrollPaneConstants;
 
-public class WordProcessorFrame extends JFrame implements ActionListener, MouseListener, ComponentListener {
+public class WordProcessorFrame extends JFrame implements ActionListener, MouseListener{
 
 	/**
 	 * 
@@ -481,23 +480,5 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 
 	}
 
-	public void componentResized(ComponentEvent e) {
-		// TODO Auto-generated method stub
 
-	}
-
-	public void componentMoved(ComponentEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void componentShown(ComponentEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void componentHidden(ComponentEvent e) {
-		// TODO Auto-generated method stub
-
-	}
 }
