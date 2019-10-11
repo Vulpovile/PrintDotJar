@@ -125,29 +125,6 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 		frame.setVisible(true);
 	}
 
-	/**
-	 * Create the frame.
-	 */
-
-	public static void printString(String str, String LPT) {
-		try
-		{
-			PrintStream printer = new PrintStream(LPT, "CP858");
-			printer.println(str);
-			printer.close();
-		}
-		catch (FileNotFoundException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 	public WordProcessorFrame() {
 		textArea.setOpaque(false);
 		textArea.setBackground(new Color(0, 0, 0, 0));
