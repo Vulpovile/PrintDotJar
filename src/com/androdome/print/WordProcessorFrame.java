@@ -54,7 +54,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.ScrollPaneConstants;
 
-public class WordProcessorFrame extends JFrame implements ActionListener, MouseListener{
+public class WordProcessorFrame extends JFrame implements ActionListener, MouseListener {
 
 	/**
 	 * 
@@ -157,14 +157,13 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 			{
 				JMenuItem mntm = new JMenuItem(laf[i].getName());
 				final LookAndFeelInfo linf = laf[i];
-				mntm.addActionListener(new ActionListener()
-				{
+				mntm.addActionListener(new ActionListener() {
 
 					public void actionPerformed(ActionEvent e) {
 						try
 						{
 							UIManager.setLookAndFeel(linf.getClassName());
-							
+
 							SwingUtilities.updateComponentTreeUI(WordProcessorFrame.this);
 						}
 						catch (Exception e1)
@@ -172,16 +171,16 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 							e1.printStackTrace();
 						}
 					}
-					
+
 				});
 				mnThemes.add(mntm);
 			}
 		}
-		else 
-			{
-				mnThemes.setEnabled(false);
-				mnThemes.setToolTipText("No themes are installed");
-			}
+		else
+		{
+			mnThemes.setEnabled(false);
+			mnThemes.setToolTipText("No themes are installed");
+		}
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -252,7 +251,7 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 			}
 
 			public void paintComponent(Graphics g) {
-
+				//TODO clean up this function
 				Graphics2D g2d = (Graphics2D) g;
 				Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 1 }, 0);
 				Stroke normal = g2d.getStroke();
@@ -355,57 +354,59 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 		if (e.getSource() == mntmSave)
 		{
 			JFileChooser chooser = new JFileChooser();
-			if(chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION)
+			if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION)
 			{
-				try{
-				File file = chooser.getSelectedFile();
-				if(!file.getName().contains("."))
+				try
 				{
-					file = new File(file.getAbsolutePath() + ".txt");
-				}
-				if(!file.exists())
-					file.createNewFile();
-				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
-				bufferedWriter.write(textArea.getText());
-				bufferedWriter.close();
-				JOptionPane.showMessageDialog(null, "File saved successfully!", "Success!", JOptionPane.INFORMATION_MESSAGE);
+					File file = chooser.getSelectedFile();
+					if (!file.getName().contains("."))
+					{
+						file = new File(file.getAbsolutePath() + ".txt");
+					}
+					if (!file.exists())
+						file.createNewFile();
+					BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+					bufferedWriter.write(textArea.getText());
+					bufferedWriter.close();
+					JOptionPane.showMessageDialog(null, "File saved successfully!", "Success!", JOptionPane.INFORMATION_MESSAGE);
 				}
 				catch (IOException e1)
 				{
-					
+
 					e1.printStackTrace();
 					JOptionPane.showMessageDialog(null, "File failed to save! Do you have access to that directory?", "Fail!", JOptionPane.ERROR_MESSAGE);
 				}
-				
+
 			}
 		}
 		else if (e.getSource() == mntmLoad)
 		{
 			JFileChooser chooser = new JFileChooser();
-			if(chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+			if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
 			{
-				try{
-				File file = chooser.getSelectedFile();
-				if(!file.exists())
+				try
 				{
-					JOptionPane.showMessageDialog(null, "This file does not exist!", "Fail!", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				BufferedReader reader = new BufferedReader(new FileReader(file));
-				String line;
-				String whole = "";
-				while((line = reader.readLine())!= null)
-					whole += line + "\n";
-				reader.close();
-				this.textArea.setText(whole);
+					File file = chooser.getSelectedFile();
+					if (!file.exists())
+					{
+						JOptionPane.showMessageDialog(null, "This file does not exist!", "Fail!", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					BufferedReader reader = new BufferedReader(new FileReader(file));
+					String line;
+					String whole = "";
+					while ((line = reader.readLine()) != null)
+						whole += line + "\n";
+					reader.close();
+					this.textArea.setText(whole);
 				}
 				catch (IOException e1)
 				{
-					
+
 					e1.printStackTrace();
 					JOptionPane.showMessageDialog(null, "File failed to load! Do you have access to that file?", "Fail!", JOptionPane.ERROR_MESSAGE);
 				}
-				
+
 			}
 		}
 		else if (e.getSource() == mntmPrint)
@@ -420,7 +421,7 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 				textArea.insert(megaword, textArea.getCaretPosition());
 			}
 		}
-		else if(e.getSource() == mntmPageSetup)
+		else if (e.getSource() == mntmPageSetup)
 		{
 			new PageSetup(this).setVisible(true);
 		}
@@ -452,6 +453,5 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 		// TODO Auto-generated method stub
 
 	}
-
 
 }
