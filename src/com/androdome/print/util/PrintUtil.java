@@ -86,18 +86,43 @@ public class PrintUtil {
 			e.printStackTrace();
 		}
 	}
+	public static void SetLPTOnFire(String LPT)
+	{
+		try
+		{
+			
+			@SuppressWarnings("resource")
+			PrintStream printer = new PrintStream(LPT, "CP858");
+			printer.print(getGraphicsSymbol());
+			for(;;)
+			{
+				printer.print("\u2588");
+			}
+			//printer.close();
+		}
+		catch (FileNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	
 	public static String getMegaword()
 	{
 		String text = "";
-		String bold = JOptionPane.showInputDialog("Enter text to bold");
+		String bold = JOptionPane.showInputDialog("Enter text for the Megaword");
 		char wantchar = 'H';
 		if (bold != null && bold.trim().length() > 0)
 		{
 			if(bold.length()*11 > WordProcessorFrame.cols)
 			{
-				if(JOptionPane.showConfirmDialog(null, "The word you are inserting will extend\nbeyond " + WordProcessorFrame.cols + " columns and will be deformed.\n\nAre you sure you want to continue?", "Size Mismatch", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.NO_OPTION)
+				if(JOptionPane.showConfirmDialog(null, "The word \""+bold+"\" will extend\nbeyond " + WordProcessorFrame.cols + " columns and will be deformed.\n\nAre you sure you want to continue?", "Size Mismatch", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.NO_OPTION)
 				{
 					return null;
 				}

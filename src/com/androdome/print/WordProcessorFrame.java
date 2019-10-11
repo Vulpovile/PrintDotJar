@@ -25,14 +25,22 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
 
+import javax.swing.JFileChooser;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
@@ -58,11 +66,12 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	JTextArea textArea = new JTextArea();
-	public static int rows = 61, cols = 130, dotsperpage = 22;
+	public static int rows = 65, cols = 80, dotsperpage = 22;
 	public static boolean greenbar = true;
 	JMenuItem mntmSave = new JMenuItem("Save...");
 	JMenuItem mntmLoad = new JMenuItem("Load...");
 	JMenuItem mntmPrint = new JMenuItem("Print...");
+	JMenuItem mntmPageSetup = new JMenuItem("Page Setup");
 	JButton btnGenerateMegaword = new JButton("Generate Megaword");
 	JPanel panel_3;
 	JSlider slider = new JSlider();
@@ -143,6 +152,11 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 	public WordProcessorFrame() {
 		textArea.setOpaque(false);
 		textArea.setBackground(new Color(0, 0, 0, 0));
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+		textArea.setFont(new Font("Courier New", Font.PLAIN, 13));
+		textArea.setColumns(cols);
+		textArea.setBorder(new EmptyBorder(10, 10, 10, 10));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 717, 611);
 
@@ -159,8 +173,43 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 		JMenu mnPage = new JMenu("Page");
 		menuBar.add(mnPage);
 
-		JMenuItem mntmPageSetup = new JMenuItem("Page Setup");
 		mnPage.add(mntmPageSetup);
+
+		JMenu mnThemes = new JMenu("Themes");
+		menuBar.add(mnThemes);
+		LookAndFeelInfo[] laf = UIManager.getInstalledLookAndFeels();
+		if (laf.length > 0)
+		{
+			for (int i = 0; i < laf.length; i++)
+			{
+				JMenuItem mntm = new JMenuItem(laf[i].getName());
+				final LookAndFeelInfo linf = laf[i];
+				mntm.addActionListener(new ActionListener()
+				{
+
+					public void actionPerformed(ActionEvent e) {
+						try
+						{
+							UIManager.setLookAndFeel(linf.getClassName());
+							
+							SwingUtilities.updateComponentTreeUI(WordProcessorFrame.this);
+						}
+						catch (Exception e1)
+						{
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+					
+				});
+				mnThemes.add(mntm);
+			}
+		}
+		else 
+			{
+				mnThemes.setEnabled(false);
+				mnThemes.setToolTipText("No themes are installed");
+			}
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -187,19 +236,19 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		panel_1.add(scrollPane_1, BorderLayout.CENTER);
-		
+
 		JPanel panel_4 = new JPanel();
 		scrollPane_1.setViewportView(panel_4);
 		panel_4.setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel panel_5 = new JPanel();
 		FlowLayout flowLayout_1 = (FlowLayout) panel_5.getLayout();
 		flowLayout_1.setHgap(8);
 		panel_4.add(panel_5, BorderLayout.EAST);
-		
-				JPanel panel_2 = new JPanel();
-				panel_4.add(panel_2, BorderLayout.CENTER);
-				panel_2.setLayout(new GridLayout(0, 4, 0, 0));
+
+		JPanel panel_2 = new JPanel();
+		panel_4.add(panel_2, BorderLayout.CENTER);
+		panel_2.setLayout(new GridLayout(0, 4, 0, 0));
 
 		for (int i = 0; i < 255; i++)
 		{
@@ -244,9 +293,9 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 				g.setColor(Color.WHITE);
 				g.fillRect(center - width / 2, 0, width, Math.max(this.getHeight(), textArea.getHeight()));
 				g.setColor(Color.GRAY.darker());
-				int spacing = 4;
-			
-				double heightpp = (g.getFontMetrics().getHeight()+spacing) * rows;
+				int spacing = getLAFSpacing();
+
+				double heightpp = (g.getFontMetrics().getHeight() + spacing) * rows;
 				double hppp = heightpp / (double) dotsperpage;
 				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 				for (double i = 0; i < Math.max(this.getHeight(), textArea.getHeight()); i += hppp)
@@ -261,18 +310,18 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 				}
 
 				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-				if(greenbar)
+				if (greenbar)
 				{
 					Color cOld = g.getColor();
-					g.setColor(new Color(200,245,200));
-					
-					for(int i = 0; i < Math.max(this.getHeight(), textArea.getHeight()); i+=(g.getFontMetrics().getHeight()+spacing)*2)
+					g.setColor(new Color(200, 245, 200));
+
+					for (int i = 0; i < Math.max(this.getHeight(), textArea.getHeight()); i += (g.getFontMetrics().getHeight() + spacing) * 2)
 					{
-						for(int x = 0; x < g.getFontMetrics().getHeight(); x++)
+						for (int x = 0; x < g.getFontMetrics().getHeight(); x++)
 						{
-							if(x % 2 == 0)
+							if (x % 2 == 0)
 							{
-								g.drawLine(center + textArea.getWidth() / 2 - 5, i+x, center - textArea.getWidth() / 2 + 5, i+x);
+								g.drawLine(center + textArea.getWidth() / 2 - 5, i + x, center - textArea.getWidth() / 2 + 5, i + x);
 							}
 						}
 					}
@@ -302,12 +351,6 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 		flowLayout.setVgap(0);
 		flowLayout.setHgap(0);
 		scrollPane.setViewportView(panel_3);
-		textArea.setLineWrap(true);
-		textArea.setWrapStyleWord(true);
-		textArea.setFont(new Font("Courier New", Font.PLAIN, 13));
-
-		textArea.setColumns(cols);
-		textArea.setBorder(new EmptyBorder(10, 10, 10, 10));
 		panel_3.add(textArea);
 		slider.setInverted(true);
 		slider.addChangeListener(new ChangeListener() {
@@ -327,16 +370,71 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 		mntmSave.addActionListener(this);
 		mntmLoad.addActionListener(this);
 		mntmPrint.addActionListener(this);
+		mntmPageSetup.addActionListener(this);
+	}
+
+	protected int getLAFSpacing() {
+		if (UIManager.getLookAndFeel().getName().contains("Windows"))
+			return 1;
+		return -1;
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == mntmSave)
 		{
-
+			JFileChooser chooser = new JFileChooser();
+			if(chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION)
+			{
+				try{
+				File file = chooser.getSelectedFile();
+				if(!file.getName().contains("."))
+				{
+					file = new File(file.getAbsolutePath() + ".txt");
+				}
+				if(!file.exists())
+					file.createNewFile();
+				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+				bufferedWriter.write(textArea.getText());
+				bufferedWriter.close();
+				JOptionPane.showMessageDialog(null, "File saved successfully!", "Success!", JOptionPane.INFORMATION_MESSAGE);
+				}
+				catch (IOException e1)
+				{
+					
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "File failed to save! Do you have access to that directory?", "Fail!", JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
 		}
 		else if (e.getSource() == mntmLoad)
 		{
-
+			JFileChooser chooser = new JFileChooser();
+			if(chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+			{
+				try{
+				File file = chooser.getSelectedFile();
+				if(!file.exists())
+				{
+					JOptionPane.showMessageDialog(null, "This file does not exist!", "Fail!", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				BufferedReader reader = new BufferedReader(new FileReader(file));
+				String line;
+				String whole = "";
+				while((line = reader.readLine())!= null)
+					whole += line + "\n";
+				reader.close();
+				this.textArea.setText(whole);
+				}
+				catch (IOException e1)
+				{
+					
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "File failed to load! Do you have access to that file?", "Fail!", JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
 		}
 		else if (e.getSource() == mntmPrint)
 		{
@@ -349,6 +447,10 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 			{
 				textArea.insert(megaword, textArea.getCaretPosition());
 			}
+		}
+		else if(e.getSource() == mntmPageSetup)
+		{
+			new PageSetup(this).setVisible(true);
 		}
 	}
 

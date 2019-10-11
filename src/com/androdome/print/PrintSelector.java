@@ -35,6 +35,7 @@ public class PrintSelector extends JDialog implements ListSelectionListener{
 	JCheckBox chckbxDontFormat = new JCheckBox("Don't format (Draft)");
 	private final JPanel contentPanel = new JPanel();
 	private JTextField printerName;
+	private final JButton setFire = new JButton("Set LPT on fire");
 	public PrintSelector(final String print) {
 		setResizable(false);
 		setModal(true);
@@ -103,7 +104,17 @@ public class PrintSelector extends JDialog implements ListSelectionListener{
 						}
 					}
 				});
+				setFire.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						PrintUtil.SetLPTOnFire(printerName.getText().trim());
+					}
+				});
+				setFire.setActionCommand("OK");
+				
+				buttonPane.add(setFire);
 				okButton.setActionCommand("OK");
+				okButton.setVisible(false);
+				okButton.setEnabled(false);
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
