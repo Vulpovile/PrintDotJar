@@ -31,7 +31,7 @@ public class PrintUtil {
 
 	public static String getFormattedString(String print) {
 		// TODO Auto-generated method stub
-		return getGraphicsSymbol() + print.replace("\\r", "\r").replace("\\\r", "\\r");
+		return getGraphicsSymbol() + print.replace("\r", "").replace("\\r", "\r").replace("\\\r", "\\r");
 	}
 	
 	public static String getGraphicsSymbol()

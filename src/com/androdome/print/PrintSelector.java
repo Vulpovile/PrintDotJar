@@ -104,6 +104,7 @@ public class PrintSelector extends JDialog implements ListSelectionListener{
 						}
 					}
 				});
+				setFire.setEnabled(false);
 				setFire.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						PrintUtil.SetLPTOnFire(printerName.getText().trim());
@@ -113,8 +114,6 @@ public class PrintSelector extends JDialog implements ListSelectionListener{
 				
 				buttonPane.add(setFire);
 				okButton.setActionCommand("OK");
-				okButton.setVisible(false);
-				okButton.setEnabled(false);
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}

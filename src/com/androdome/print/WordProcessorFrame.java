@@ -62,6 +62,8 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	JTextArea textArea = new JTextArea();
+
+	JButton btnMakeMatrix = new JButton("Make Matrix");
 	public static int rows = 65, cols = 80, dotsperpage = 22;
 	public static boolean greenbar = true;
 	JMenuItem mntmSave = new JMenuItem("Save...");
@@ -126,7 +128,6 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 		textArea.setOpaque(false);
 		textArea.setBackground(new Color(0, 0, 0, 0));
 		textArea.setLineWrap(true);
-		textArea.setWrapStyleWord(true);
 		textArea.setFont(new Font("Courier New", Font.PLAIN, 13));
 		textArea.setColumns(cols);
 		textArea.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -194,6 +195,8 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 		panel.add(toolBar, BorderLayout.NORTH);
 
 		toolBar.add(btnGenerateMegaword);
+		btnMakeMatrix.addActionListener(this);
+		toolBar.add(btnMakeMatrix);
 		btnGenerateMegaword.addActionListener(this);
 
 		JPanel panel_1 = new JPanel();
@@ -223,7 +226,15 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 
 		for (int i = 0; i < 255; i++)
 		{
-			JToggleButton btn = new JToggleButton(getAscii(i) + "");
+			JButton btn = new JButton(getAscii(i) + "");
+			btn.setToolTipText((int)getAscii(i) + "");
+			btn.addActionListener(new ActionListener(){
+
+				public void actionPerformed(ActionEvent e) {
+					textArea.insert(e.getActionCommand(), textArea.getCaretPosition());
+				}
+				
+			});
 			panel_2.add(btn);
 		}
 
@@ -424,6 +435,10 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 		else if (e.getSource() == mntmPageSetup)
 		{
 			new PageSetup(this).setVisible(true);
+		}
+		else if(e.getSource() == btnMakeMatrix)
+		{
+			new MatrixMaker(this).setVisible(true);
 		}
 	}
 

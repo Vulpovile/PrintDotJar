@@ -120,6 +120,7 @@ public class PageSetup extends JDialog implements ActionListener{
 				wpf.textArea.getParent().add(textArea);
 				wpf.textArea.getParent().remove(wpf.textArea);
 				textArea.setText(wpf.textArea.getText());
+				//textArea.setFormat(wpf.textArea.getFormat());
 				wpf.textArea = textArea;
 				wpf.repaint();
 				wpf.validate();
