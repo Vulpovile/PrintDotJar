@@ -43,10 +43,10 @@ public class PageSetup extends JDialog implements ActionListener{
 		contentPanel.add(lblChooseOrEnter);
 		
 		chckbxIsGreebar.setBounds(10, 32, 194, 23);
-		chckbxIsGreebar.setSelected(WordProcessorFrame.greenbar);
+		chckbxIsGreebar.setSelected(wpf.greenbar);
 		contentPanel.add(chckbxIsGreebar);
 		
-		txtRows = new JTextField(WordProcessorFrame.rows + "");
+		txtRows = new JTextField(wpf.rows + "");
 		txtRows.setBounds(10, 84, 86, 23);
 		contentPanel.add(txtRows);
 		txtRows.setColumns(10);
@@ -59,12 +59,12 @@ public class PageSetup extends JDialog implements ActionListener{
 		lblColumns.setBounds(106, 62, 46, 14);
 		contentPanel.add(lblColumns);
 		
-		txtColumns = new JTextField(WordProcessorFrame.cols + "");
+		txtColumns = new JTextField(wpf.cols + "");
 		txtColumns.setColumns(10);
 		txtColumns.setBounds(106, 84, 86, 23);
 		contentPanel.add(txtColumns);
 		
-		txtDPP = new JTextField(WordProcessorFrame.dotsperpage + "");
+		txtDPP = new JTextField(wpf.dotsperpage + "");
 		txtDPP.setColumns(10);
 		txtDPP.setBounds(202, 84, 86, 23);
 		contentPanel.add(txtDPP);
@@ -105,11 +105,11 @@ public class PageSetup extends JDialog implements ActionListener{
 					JOptionPane.showMessageDialog(null, "You must at least one dot per page!", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				WordProcessorFrame.rows = rows;
-				WordProcessorFrame.cols = cols;
-				WordProcessorFrame.dotsperpage = dpp;
-				WordProcessorFrame.greenbar = this.chckbxIsGreebar.isSelected();
-				JTextArea textArea = new JTextArea();
+				wpf.rows = rows;
+				wpf.cols = cols;
+				wpf.dotsperpage = dpp;
+				wpf.greenbar = this.chckbxIsGreebar.isSelected();
+				FormattableTextArea textArea = new FormattableTextArea();
 				textArea.setOpaque(false);
 				textArea.setBackground(new Color(0, 0, 0, 0));
 				textArea.setLineWrap(true);
@@ -120,7 +120,8 @@ public class PageSetup extends JDialog implements ActionListener{
 				wpf.textArea.getParent().add(textArea);
 				wpf.textArea.getParent().remove(wpf.textArea);
 				textArea.setText(wpf.textArea.getText());
-				//textArea.setFormat(wpf.textArea.getFormat());
+				textArea.setFormat(wpf.textArea.getFormat());
+				textArea.getDocument().addDocumentListener(wpf.myChange);
 				wpf.textArea = textArea;
 				wpf.repaint();
 				wpf.validate();

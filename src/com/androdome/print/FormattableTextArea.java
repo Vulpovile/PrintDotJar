@@ -19,6 +19,7 @@ public class FormattableTextArea extends JTextArea {
 	private byte fmt = Byte.parseByte("00000000", 2);
 
 	public FormattableTextArea() {
+		super();
 		((AbstractDocument) this.getDocument()).setDocumentFilter(new FTADocFilter());
 	}
 
@@ -37,32 +38,33 @@ public class FormattableTextArea extends JTextArea {
 		super.paintComponent(g);
 	}
 	
+	
 }
 
 class FTADocFilter extends DocumentFilter {
 	@Override
 	public void replace(DocumentFilter.FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
-		if (offset >= fb.getDocument().getLength())
+		/*if (offset >= fb.getDocument().getLength())
 		{
-			System.out.println("Added: " + text);
+			//System.out.println("Added: " + text);
 		}
 		else
 		{
-			String old = fb.getDocument().getText(offset, length);
-			System.out.println("Replaced " + old + " with " + text);
-		}
+			//String old = fb.getDocument().getText(offset, length);
+			//System.out.println("Replaced " + old + " with " + text);
+		}*/
 		super.replace(fb, offset, length, text, attrs);
 	}
 
 	@Override
 	public void insertString(DocumentFilter.FilterBypass fb, int offset, String text, AttributeSet attr) throws BadLocationException {
-		System.out.println("Added: " + text);
+		//System.out.println("Added: " + text);
 		super.insertString(fb, offset, text, attr);
 	}
 
 	@Override
 	public void remove(DocumentFilter.FilterBypass fb, int offset, int length) throws BadLocationException {
-		System.out.println("Removed: " + fb.getDocument().getText(offset, length));
+		//System.out.println("Removed: " + fb.getDocument().getText(offset, length));
 		super.remove(fb, offset, length);
 	}
 }

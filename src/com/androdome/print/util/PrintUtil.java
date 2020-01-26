@@ -31,7 +31,7 @@ public class PrintUtil {
 
 	public static String getFormattedString(String print) {
 		// TODO Auto-generated method stub
-		return getGraphicsSymbol() + print.replace("\r", "").replace("\\r", "\r").replace("\\\r", "\\r");
+		return getGraphicsSymbol() + print.replace('\r', '\0').replace("\0", "").replace("\\r", "\r");
 	}
 	
 	public static String getGraphicsSymbol()
@@ -113,16 +113,16 @@ public class PrintUtil {
 	}
 	
 	
-	public static String getMegaword()
+	public static String getMegaword(int cols)
 	{
 		String text = "";
 		String bold = JOptionPane.showInputDialog("Enter text for the Megaword");
 		char wantchar = 'H';
 		if (bold != null && bold.trim().length() > 0)
 		{
-			if(bold.length()*11 > WordProcessorFrame.cols)
+			if(bold.length()*11 > cols)
 			{
-				if(JOptionPane.showConfirmDialog(null, "The word \""+bold+"\" will extend\nbeyond " + WordProcessorFrame.cols + " columns and will be deformed.\n\nAre you sure you want to continue?", "Size Mismatch", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.NO_OPTION)
+				if(JOptionPane.showConfirmDialog(null, "The word \""+bold+"\" will extend\nbeyond " + cols + " columns and will be deformed.\n\nAre you sure you want to continue?", "Size Mismatch", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.NO_OPTION)
 				{
 					return null;
 				}
