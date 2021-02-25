@@ -68,7 +68,7 @@ public class WordProcessorFrame extends JFrame implements ActionListener, MouseL
 	FormattableTextArea textArea = new FormattableTextArea();
 
 	JButton btnMakeMatrix = new JButton("Make Matrix");
-	public int rows = 65, cols = 80, dotsperpage = 22;
+	public int rows = 66, cols = 80, dotsperpage = 22;
 	public boolean greenbar = true;
 	JMenuItem mntmSave = new JMenuItem("Save");
 	JMenuItem mntmLoad = new JMenuItem("Load");

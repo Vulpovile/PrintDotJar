@@ -6,8 +6,6 @@ import java.io.PrintStream;
 
 import javax.swing.JOptionPane;
 
-import com.androdome.print.WordProcessorFrame;
-
 
 public class PrintUtil {
 	public static void printString(String str, String LPT) {
