@@ -1,4 +1,4 @@
-package com.androdome.print;
+package com.flaremicrosystems.printdotjar;
 
 import java.awt.Graphics;
 

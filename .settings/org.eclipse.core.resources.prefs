@@ -1,4 +1,4 @@
 eclipse.preferences.version=1
-encoding//src/com/androdome/print/MatrixMaker.java=UTF-8
-encoding//src/com/androdome/print/PageSetup.java=UTF-8
-encoding//src/com/androdome/print/PrintSelector.java=UTF-8
+encoding//src/com/flaremicrosystems/printdotjar/MatrixMaker.java=UTF-8
+encoding//src/com/flaremicrosystems/printdotjar/PageSetup.java=UTF-8
+encoding//src/com/flaremicrosystems/printdotjar/PrintSelector.java=UTF-8

@@ -1,4 +1,4 @@
-package com.androdome.print;
+package com.flaremicrosystems.printdotjar;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -10,7 +10,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import com.androdome.print.util.PrintUtil;
+import com.flaremicrosystems.printdotjar.util.PrintUtil;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

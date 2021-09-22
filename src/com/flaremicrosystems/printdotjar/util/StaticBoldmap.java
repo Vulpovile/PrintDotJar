@@ -1,4 +1,4 @@
-package com.androdome.print.util;
+package com.flaremicrosystems.printdotjar.util;
 
 import java.util.HashMap;
 

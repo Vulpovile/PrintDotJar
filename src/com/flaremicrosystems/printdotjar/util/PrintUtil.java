@@ -1,4 +1,4 @@
-package com.androdome.print.util;
+package com.flaremicrosystems.printdotjar.util;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -114,7 +114,7 @@ public class PrintUtil {
 	public static String getMegaword(int cols)
 	{
 		String text = "";
-		String bold = JOptionPane.showInputDialog("Enter text for the Megaword");
+		String bold = JOptionPane.showInputDialog("Enter text for the Megaword").toUpperCase();
 		char wantchar = 'H';
 		if (bold != null && bold.trim().length() > 0)
 		{
